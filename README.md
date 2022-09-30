@@ -8,4 +8,4 @@
 <br>
 
 ## Languages:
-- Python: 10 / 20 ( + 1 extra )
+- Python: 11 / 20 ( + 1 extra )
