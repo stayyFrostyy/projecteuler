@@ -8,6 +8,7 @@
 
 # 2 dimensional array to track position (cell) in grid. 2 for loops (row, col)
 
+
 gridSeries = [[8, 2, 22, 97, 38, 15, 00, 40, 00, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
               [49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 00],
               [81, 49, 31, 73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30, 3, 49, 13, 36, 65],
@@ -29,81 +30,93 @@ gridSeries = [[8, 2, 22, 97, 38, 15, 00, 40, 00, 75, 4, 5, 7, 78, 52, 12, 50, 77
               [20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54],
               [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]]
 
+def north(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row - i][col]
 
-# N E S W
+    return total
 
-# North direction is gridSeries[3-0][col]
-#                    gridSeries[value-3][value]
-# Only if col >= 3
-# print(gridSeries[3][0])
-# print(gridSeries[2][0])
-# print(gridSeries[1][0])
-# print(gridSeries[0][0])
+def south(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row + i][col]
+    
+    return total
 
-# South direction is gridSeries[0-3][col]
-#                    gridSeries[value+3][value]
-# Only if col <= 17
-# print(gridSeries[0][0])
-# print(gridSeries[1][0])
-# print(gridSeries[2][0])
-# print(gridSeries[3][0])
+def east(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row][col + i]
+    
+    return total
 
+def west(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row][col - i]
+    
+    return total
 
-# East direction is gridSeries[row][0-3]
-#                   gridSeries[value][value+3]
-# Only if row <= 17
-# print(gridSeries[0][0])
-# print(gridSeries[0][1])
-# print(gridSeries[0][2])
-# print(gridSeries[0][3])
+def northwest(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row - i][col - i]
+    
+    return total
 
-# West direction is gridSeries[row][3-0]
-#                   gridSeries[value][value-3]
-# Only if row >= 3
-# print(gridSeries[0][3])
-# print(gridSeries[0][2])
-# print(gridSeries[0][1])
-# print(gridSeries[0][0])
+def northeast(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row - i][col + i]
+    
+    return total
 
+def southwest(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row + i][col - i]
+    
+    return total
 
-# NW, NE // SW, SE
-
-# North West is gridSeries[10-7][10-7]
-#               gridSeries[value-3][value-3]
-# Only if row >= 3 AND col >= 3
-# print(gridSeries[10][10])
-# print(gridSeries[9][9])
-# print(gridSeries[8][8])
-# print(gridSeries[7][7])
-
-
-# North East is gridSeries[10-7][10-13]
-#               gridSeries[value-3][value+3]
-# Only if row >= 3 AND col <= 17
-# print(gridSeries[10][10])
-# print(gridSeries[9][11])
-# print(gridSeries[8][12])
-# print(gridSeries[7][13])
-
-
-# South West is gridSeries[10-13][10-7]
-#               gridSeries[value+3][value-3]
-# Only if row <= 17 AND col <= 17
-# print(gridSeries[10][10])
-# print(gridSeries[11][9])
-# print(gridSeries[12][8])
-# print(gridSeries[13][7])
-
-# South East is gridSeries[10-13][10-13]
-#               gridSeries[value+3][value+3]
-# Only if row <= 17 AND col >= 3
-# print(gridSeries[10][10])
-# print(gridSeries[11][11])
-# print(gridSeries[12][12])
-# print(gridSeries[13][13])
+def southeast(row, col):
+    total = 1
+    for i in range(4):
+        total = total * gridSeries[row + i][col + i]
+    
+    return total
 
 
+def main():
+    prod_large = 0
+    tempList = []
 
+    for row in range(20):
+        for col in range(20):
+            if row >= 3 and row <= 16 and col >= 3 and col <= 16:
+                tempList.append(max(north(row, col), south(row, col), west(row, col), east(row, col)))
+                tempList.append(max(northwest(row, col), northeast(row, col), southwest(row, col), southeast(row, col)))
+            elif row < 3 and col < 3:
+                tempList.append(max(east(row, col), south(row, col), southeast(row, col)))
+            elif row > 16 and col < 3:
+                tempList.append(max(east(row, col), north(row, col), northeast(row, col)))
+            elif row < 3 and col > 16:
+                tempList.append(max(west(row, col), south(row, col), southwest(row, col)))
+            elif row > 16 and col > 16:
+                tempList.append(max(west(row, col), north(row, col), northwest(row, col)))
+            elif col > 3 or col < 16:
+                if row < 3:
+                    tempList.append(max(east(row, col), west(row, col), south(row,col), southwest(row, col), southeast(row, col)))
+                elif row > 16:
+                    tempList.append(max(east(row, col), west(row, col), north(row, col), northwest(row, col), northeast(row, col)))
+
+    
+    prod_large = max(tempList)
+    return prod_large
+    
+                
+
+print(main())
 
 
 
