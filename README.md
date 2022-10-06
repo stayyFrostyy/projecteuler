@@ -1,4 +1,8 @@
-# Project Euler
+<img align="left" width="250" src="/src/projeu.png" alt="project euler" />
+<br>
+
+---
+
 
 
 - Repository created to track progress through project-euler.
